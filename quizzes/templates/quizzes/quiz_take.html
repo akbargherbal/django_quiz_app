@@ -1,0 +1,17 @@
+{% extends 'quizzes/base.html' %}
+
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">Take Quiz: [Quiz Title]</h2>
+<div class="text-lg mb-4">Question <span id="current-question" class="font-bold">1</span> of <span id="total-questions" class="font-bold">10</span></div>
+<form class="space-y-4">
+    <p id="question-text" class="text-xl mb-4">What is the capital of France?</p>
+    <div id="answer-options" class="space-y-2">
+        <!-- We'll add answer options dynamically later -->
+    </div>
+    <div class="flex justify-between mt-8">
+        <button type="button" id="prev-question" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Previous Question</button>
+        <button type="button" id="next-question" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next Question</button>
+    </div>
+    <button type="submit" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Submit Quiz</button>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'quizzes/base.html' %}
+
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">Welcome to Quiz App</h2>
+<div class="space-x-4 mb-8">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Quiz</button>
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Take a Quiz</button>
+</div>
+<section class="mb-8">
+    <h3 class="text-2xl font-semibold mb-4">Featured Quizzes</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- We'll add featured quizzes here -->
+    </div>
+</section>
+<section>
+    <h3 class="text-2xl font-semibold mb-4">Recent Activity</h3>
+    <ul class="space-y-2">
+        <!-- We'll add recent activity here -->
+    </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Create New Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3498db',
+                        secondary: '#2ecc71',
+                        accent: '#e74c3c',
+                        dark: {
+                            bg: '#121212',
+                            surface: '#1e1e1e',
+                        },
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Open Sans', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#f5f5f5] dark:bg-dark-bg text-[#333333] dark:text-[#e0e0e0] font-body">
+    <header class="bg-primary text-white py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 id="quizmaster" class="text-2xl font-heading font-bold">QuizMaster</h1>
+            <p class="text-sm">Learn, Challenge, Grow</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8" role="main">
+        <h2 id="create-new-quiz" class="text-3xl font-heading font-bold mb-6 text-primary dark:text-secondary">Create New Quiz</h2>
+
+        <form class="space-y-6">
+            <div>
+                <label for="quiz-title" class="block mb-2 font-semibold">Quiz Title</label>
+                <input type="text" id="quiz-title" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+            </div>
+
+            <div>
+                <label for="quiz-description" class="block mb-2 font-semibold">Description</label>
+                <textarea id="quiz-description" rows="3" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"></textarea>
+            </div>
+
+            <div>
+                <label for="quiz-category" class="block mb-2 font-semibold">Category</label>
+                <select id="quiz-category" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                    <option value="">Select a category</option>
+                    <option value="general">General Knowledge</option>
+                    <option value="science">Science</option>
+                    <option value="history">History</option>
+                    <option value="geography">Geography</option>
+                    <option value="entertainment">Entertainment</option>
+                </select>
+            </div>
+
+            <div id="questions-container" class="space-y-6">
+                <div class="question-block bg-white dark:bg-dark-surface p-6 rounded-lg shadow-md">
+                    <h3 id="question-1" class="text-xl font-heading font-semibold mb-4 text-primary dark:text-secondary">Question 1</h3>
+
+                    <div class="mb-4">
+                        <label for="question-text-1" class="block mb-2 font-semibold">Question Text</label>
+                        <input type="text" id="question-text-1" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                    </div>
+
+                    <div class="space-y-2">
+                        <div>
+                            <input type="text" placeholder="Option 1" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Option 2" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Option 3" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Option 4" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="correct-answer-1" class="block mb-2 font-semibold">Correct Answer</label>
+                        <select id="correct-answer-1" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary">
+                            <option value="">Select correct answer</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                            <option value="4">Option 4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button type="button" class="bg-primary text-white rounded-full py-2 px-4 hover:bg-primary/80 transition-colors">Add Question</button>
+                <button type="submit" class="bg-secondary text-white rounded-full py-2 px-4 hover:bg-secondary/80 transition-colors">Create Quiz</button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="container mx-auto px-4 text-center py-4">
+        <p>&copy; 2024 QuizMaster. All rights reserved.</p>
+    </footer>
+</body>
+</html>
