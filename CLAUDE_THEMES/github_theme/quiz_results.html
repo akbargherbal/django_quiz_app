@@ -1,0 +1,71 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Quiz Results
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold font-heading mb-6 text-[#24292f] dark:text-[#c9d1d9]">Quiz Results: Geography Trivia</h1>
+
+    <div class="bg-[#f6f8fa] dark:bg-[#161b22] rounded-lg shadow-lg p-6 mb-6">
+      <div class="text-center mb-6">
+        <p class="text-2xl font-bold mb-2">Your Score: 8/10</p>
+        <p>Time Taken: 5:23</p>
+      </div>
+
+      <div class="mb-6">
+        <div class="relative pt-1">
+          <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#2da44e] dark:bg-[#2da44e]">
+            <div style="width: 80%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#2da44e]"></div>
+          </div>
+        </div>
+        <p class="text-center">80% Correct</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-[#2da44e] dark:bg-[#2da44e] p-4 rounded-lg">
+          <h3 class="font-semibold mb-2 text-white">Correct Answers</h3>
+          <p class="text-2xl font-bold text-white">8</p>
+        </div>
+        <div class="bg-[#d73a49] dark:bg-[#d73a49] p-4 rounded-lg">
+          <h3 class="font-semibold mb-2 text-white">Incorrect Answers</h3>
+          <p class="text-2xl font-bold text-white">2</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-[#f6f8fa] dark:bg-[#161b22] rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-[#24292f] dark:text-[#c9d1d9]">Question Summary</h2>
+      <ul class="space-y-4">
+        <li class="flex items-start">
+          <svg class="h-6 w-6 text-[#2da44e] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>What is the capital of France?</span>
+        </li>
+        <li class="flex items-start">
+          <svg class="h-6 w-6 text-[#2da44e] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>Which river runs through London?</span>
+        </li>
+        <li class="flex items-start">
+          <svg class="h-6 w-6 text-[#d73a49] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          <div>
+            <p>What is the largest country in Africa?</p>
+            <p class="text-sm text-[#8b949e] dark:text-[#8b949e]">Your answer: Nigeria</p>
+            <p class="text-sm text-[#2da44e]">Correct answer: Algeria</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex justify-between">
+      <button class="bg-[#24292f] text-white rounded-full py-2 px-4 hover:bg-[#24292f]/80 transition-colors">Retake Quiz</button>
+      <button class="bg-[#2da44e] text-white rounded-full py-2 px-4 hover:bg-[#2da44e]/80 transition-colors">Share Results</button>
+    </div>
+  </div>
+{% endblock %}

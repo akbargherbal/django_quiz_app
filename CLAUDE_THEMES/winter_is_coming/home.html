@@ -1,0 +1,56 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Quizzes Home Page
+{% endblock %}
+
+{% block content %}
+  <section class="mb-8">
+    <h2 class="font-montserrat text-2xl font-bold mb-4 text-[#9cd9e8]">Featured Quizzes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
+        <h3 class="font-montserrat font-bold mb-2 text-[#9cd9e8] dark:text-[#b6e1f2]">Geography Challenge</h3>
+        <p class="mb-4 text-[#d0e1f9] dark:text-[#7a92b3]">15 questions • 1024 plays</p>
+        <button class="bg-[#9cd9e8] text-[#0c1021] rounded-full py-2 px-4 hover:bg-[#9cd9e8]/80 transition-colors dark:bg-[#b6e1f2] dark:text-[#1e2d4d] dark:hover:bg-[#b6e1f2]/80">Start Quiz</button>
+      </div>
+      <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
+        <h3 class="font-montserrat font-bold mb-2 text-[#9cd9e8] dark:text-[#b6e1f2]">Movie Trivia</h3>
+        <p class="mb-4 text-[#d0e1f9] dark:text-[#7a92b3]">20 questions • 768 plays</p>
+        <button class="bg-[#9cd9e8] text-[#0c1021] rounded-full py-2 px-4 hover:bg-[#9cd9e8]/80 transition-colors dark:bg-[#b6e1f2] dark:text-[#1e2d4d] dark:hover:bg-[#b6e1f2]/80">Start Quiz</button>
+      </div>
+      <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
+        <h3 class="font-montserrat font-bold mb-2 text-[#9cd9e8] dark:text-[#b6e1f2]">Science Facts</h3>
+        <p class="mb-4 text-[#d0e1f9] dark:text-[#7a92b3]">10 questions • 512 plays</p>
+        <button class="bg-[#9cd9e8] text-[#0c1021] rounded-full py-2 px-4 hover:bg-[#9cd9e8]/80 transition-colors dark:bg-[#b6e1f2] dark:text-[#1e2d4d] dark:hover:bg-[#b6e1f2]/80">Start Quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="font-montserrat text-2xl font-bold mb-4 text-[#9cd9e8]">Popular Categories</h2>
+    <div class="flex flex-wrap gap-2">
+      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">History</button>
+      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Sports</button>
+      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Music</button>
+      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Art</button>
+      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Technology</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="font-montserrat text-2xl font-bold mb-4 text-[#9cd9e8]">Leaderboard</h2>
+    <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-bold text-[#9cd9e8] dark:text-[#b6e1f2]">Top Players</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-[#f7d9e8]">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+        </svg>
+      </div>
+      <ol class="list-decimal list-inside text-[#d0e1f9] dark:text-[#7a92b3]">
+        <li>Player1 - 1500 points</li>
+        <li>Player2 - 1350 points</li>
+        <li>Player3 - 1200 points</li>
+      </ol>
+    </div>
+  </section>
+{% endblock %}

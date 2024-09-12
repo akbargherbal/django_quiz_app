@@ -1,0 +1,82 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  User Profile
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-ayu-light-panel dark:bg-ayu-dark-panel rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex items-center space-x-4 mb-6">
+        <img src="/api/placeholder/80/80" alt="User Avatar" class="w-20 h-20 rounded-full bg-ayu-light-accent dark:bg-ayu-dark-accent" />
+        <div>
+          <h1 class="text-3xl font-bold font-heading text-ayu-light-accent dark:text-ayu-dark-accent">John Doe</h1>
+          <p class="text-ayu-light-comment dark:text-ayu-dark-comment">@johndoe123</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-ayu-light-accent dark:bg-ayu-dark-accent p-4 rounded-lg text-center">
+          <p class="font-semibold text-ayu-light-panel dark:text-ayu-dark-panel">Member since</p>
+          <p class="text-ayu-light-panel dark:text-ayu-dark-panel">January 2023</p>
+        </div>
+        <div class="bg-ayu-light-accent dark:bg-ayu-dark-accent p-4 rounded-lg text-center">
+          <p class="font-semibold text-ayu-light-panel dark:text-ayu-dark-panel">Quizzes Taken</p>
+          <p class="text-ayu-light-panel dark:text-ayu-dark-panel">45</p>
+        </div>
+        <div class="bg-ayu-light-accent dark:bg-ayu-dark-accent p-4 rounded-lg text-center">
+          <p class="font-semibold text-ayu-light-panel dark:text-ayu-dark-panel">Quizzes Created</p>
+          <p class="text-ayu-light-panel dark:text-ayu-dark-panel">12</p>
+        </div>
+      </div>
+
+      <div class="flex space-x-4">
+        <button class="bg-ayu-light-accent text-ayu-light-panel rounded-full py-2 px-4 hover:bg-ayu-light-accent/80 transition-colors dark:bg-ayu-dark-accent dark:text-ayu-dark-panel dark:hover:bg-ayu-dark-accent/80">Edit Profile</button>
+        <button class="bg-ayu-light-success text-ayu-light-panel rounded-full py-2 px-4 hover:bg-ayu-light-success/80 transition-colors dark:bg-ayu-dark-success dark:text-ayu-dark-panel dark:hover:bg-ayu-dark-success/80">Change Password</button>
+      </div>
+    </div>
+
+    <div class="bg-ayu-light-panel dark:bg-ayu-dark-panel rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-ayu-light-accent dark:text-ayu-dark-accent">Your Quizzes</h2>
+      <ul class="space-y-4">
+        <li>
+          <p class="font-semibold text-ayu-light-panel dark:text-ayu-dark-panel">Movie Trivia</p>
+          <p class="text-sm text-ayu-light-comment dark:text-ayu-dark-comment">
+            Plays: 230 <span class="ml-2">Avg Score: 75%</span>
+          </p>
+        </li>
+        <li>
+          <p class="font-semibold text-ayu-light-panel dark:text-ayu-dark-panel">Science Facts</p>
+          <p class="text-sm text-ayu-light-comment dark:text-ayu-dark-comment">
+            Plays: 180 <span class="ml-2">Avg Score: 82%</span>
+          </p>
+        </li>
+      </ul>
+      <button class="mt-4 bg-ayu-light-success text-ayu-light-panel rounded-full py-2 px-4 hover:bg-ayu-light-success/80 transition-colors dark:bg-ayu-dark-success dark:text-ayu-dark-panel dark:hover:bg-ayu-dark-success/80">Create New Quiz</button>
+    </div>
+
+    <div class="bg-ayu-light-panel dark:bg-ayu-dark-panel rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-ayu-light-accent dark:text-ayu-dark-accent">Recent Activity</h2>
+      <ul class="space-y-4">
+        <li class="flex items-center">
+          <svg class="h-6 w-6 text-ayu-light-success mr-2 dark:text-ayu-dark-success" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="text-ayu-light-panel dark:text-ayu-dark-panel">Completed "World Capitals" (Score: 9/10)</span>
+        </li>
+        <li class="flex items-center">
+          <svg class="h-6 w-6 text-ayu-light-accent mr-2 dark:text-ayu-dark-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <span class="text-ayu-light-panel dark:text-ayu-dark-panel">Created "90s Pop Culture Quiz"</span>
+        </li>
+        <li class="flex items-center">
+          <svg class="h-6 w-6 text-ayu-light-error mr-2 dark:text-ayu-dark-error" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+          </svg>
+          <span class="text-ayu-light-panel dark:text-ayu-dark-panel">Achieved "Quiz Master" badge</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Create a Quiz
+{% endblock %}
+
+{% block content %}
+  <h2 id="create-new-quiz" class="text-3xl font-heading font-bold mb-6 text-ayu-light-accent dark:text-ayu-dark-accent">Create New Quiz</h2>
+
+  <form class="space-y-6">
+    <div>
+      <label for="quiz-title" class="block mb-2 font-semibold text-ayu-light-text dark:text-ayu-dark-text">Quiz Title</label>
+      <input type="text" id="quiz-title" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent" />
+    </div>
+
+    <div>
+      <label for="quiz-description" class="block mb-2 font-semibold text-ayu-light-text dark:text-ayu-dark-text">Description</label>
+      <textarea id="quiz-description" rows="3" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent"></textarea>
+    </div>
+
+    <div>
+      <label for="quiz-category" class="block mb-2 font-semibold text-ayu-light-text dark:text-ayu-dark-text">Category</label>
+      <select id="quiz-category" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent">
+        <option value="">Select a category</option>
+        <option value="general">General Knowledge</option>
+        <option value="science">Science</option>
+        <option value="history">History</option>
+        <option value="geography">Geography</option>
+        <option value="entertainment">Entertainment</option>
+      </select>
+    </div>
+
+    <div id="questions-container" class="space-y-6">
+      <div class="question-block bg-ayu-light-surface p-6 rounded-lg shadow-md dark:bg-ayu-dark-surface">
+        <h3 id="question-1" class="text-xl font-heading font-semibold mb-4 text-ayu-light-accent dark:text-ayu-dark-accent">Question 1</h3>
+
+        <div class="mb-4">
+          <label for="question-text-1" class="block mb-2 font-semibold text-ayu-light-text dark:text-ayu-dark-text">Question Text</label>
+          <input type="text" id="question-text-1" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent" />
+        </div>
+
+        <div class="space-y-2">
+          <div>
+            <input type="text" placeholder="Option 1" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent" />
+          </div>
+          <div>
+            <input type="text" placeholder="Option 2" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent" />
+          </div>
+          <div>
+            <input type="text" placeholder="Option 3" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent" />
+          </div>
+          <div>
+            <input type="text" placeholder="Option 4" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent" />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label for="correct-answer-1" class="block mb-2 font-semibold text-ayu-light-text dark:text-ayu-dark-text">Correct Answer</label>
+          <select id="correct-answer-1" class="w-full p-2 border border-ayu-light-border rounded-lg focus:ring-2 focus:ring-ayu-light-accent dark:border-ayu-dark-border dark:bg-ayu-dark-surface dark:focus:ring-ayu-dark-accent">
+            <option value="">Select correct answer</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <button type="button" class="bg-ayu-light-accent text-ayu-light-surface rounded-full py-2 px-4 hover:bg-ayu-light-accent/80 transition-colors dark:bg-ayu-dark-accent dark:text-ayu-dark-surface dark:hover:bg-ayu-dark-accent/80">Add Question</button>
+      <button type="submit" class="bg-ayu-light-accent text-ayu-light-surface rounded-full py-2 px-4 hover:bg-ayu-light-accent/80 transition-colors dark:bg-ayu-dark-accent dark:text-ayu-dark-surface dark:hover:bg-ayu-dark-accent/80">Create Quiz</button>
+    </div>
+  </form>
+{% endblock %}

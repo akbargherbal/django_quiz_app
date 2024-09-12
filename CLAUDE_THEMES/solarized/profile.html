@@ -1,0 +1,82 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  User Profile
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-base3 dark:bg-base03 rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex items-center space-x-4 mb-6">
+        <img src="/api/placeholder/80/80" alt="User Avatar" class="w-20 h-20 rounded-full bg-violet dark:bg-violet" />
+        <div>
+          <h1 class="text-3xl font-bold font-heading text-violet dark:text-cyan">John Doe</h1>
+          <p class="text-base00 dark:text-base1">@johndoe123</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-violet dark:bg-violet p-4 rounded-lg text-center">
+          <p class="font-semibold text-base3 dark:text-base03">Member since</p>
+          <p class="text-base2 dark:text-base1">January 2023</p>
+        </div>
+        <div class="bg-violet dark:bg-violet p-4 rounded-lg text-center">
+          <p class="font-semibold text-base3 dark:text-base03">Quizzes Taken</p>
+          <p class="text-base2 dark:text-base1">45</p>
+        </div>
+        <div class="bg-violet dark:bg-violet p-4 rounded-lg text-center">
+          <p class="font-semibold text-base3 dark:text-base03">Quizzes Created</p>
+          <p class="text-base2 dark:text-base1">12</p>
+        </div>
+      </div>
+
+      <div class="flex space-x-4">
+        <button class="bg-violet text-base3 dark:text-base03 rounded-full py-2 px-4 hover:bg-violet/80 transition-colors">Edit Profile</button>
+        <button class="bg-green text-base3 dark:text-base03 rounded-full py-2 px-4 hover:bg-green/80 transition-colors">Change Password</button>
+      </div>
+    </div>
+
+    <div class="bg-base3 dark:bg-base03 rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-violet dark:text-cyan">Your Quizzes</h2>
+      <ul class="space-y-4">
+        <li>
+          <p class="font-semibold text-base2 dark:text-base1">Movie Trivia</p>
+          <p class="text-sm text-base00 dark:text-base1">
+            Plays: 230 <span class="ml-2">Avg Score: 75%</span>
+          </p>
+        </li>
+        <li>
+          <p class="font-semibold text-base2 dark:text-base1">Science Facts</p>
+          <p class="text-sm text-base00 dark:text-base1">
+            Plays: 180 <span class="ml-2">Avg Score: 82%</span>
+          </p>
+        </li>
+      </ul>
+      <button class="mt-4 bg-green text-base3 dark:text-base03 rounded-full py-2 px-4 hover:bg-green/80 transition-colors">Create New Quiz</button>
+    </div>
+
+    <div class="bg-base3 dark:bg-base03 rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-violet dark:text-cyan">Recent Activity</h2>
+      <ul class="space-y-4">
+        <li class="flex items-center">
+          <svg class="h-6 w-6 text-green mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="text-base2 dark:text-base1">Completed "World Capitals" (Score: 9/10)</span>
+        </li>
+        <li class="flex items-center">
+          <svg class="h-6 w-6 text-blue mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <span class="text-base2 dark:text-base1">Created "90s Pop Culture Quiz"</span>
+        </li>
+        <li class="flex items-center">
+          <svg class="h-6 w-6 text-red mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+          </svg>
+          <span class="text-base2 dark:text-base1">Achieved "Quiz Master" badge</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

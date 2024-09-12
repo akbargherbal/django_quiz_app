@@ -1,0 +1,32 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Take a Quiz!
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold font-heading mb-6 text-rosewater dark:text-lavender">Geography Trivia</h1>
+
+    <div class="bg-base dark:bg-mantle rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-semibold text-text dark:text-text">Question 2 of 10</span>
+        <span class="text-lg font-semibold text-text dark:text-text">Time: 1:45</span>
+      </div>
+
+      <p class="text-xl mb-4 text-text dark:text-text">What is the capital of France?</p>
+
+      <div class="space-y-4">
+        <button class="w-full text-left p-3 rounded-lg bg-blue dark:bg-sapphire hover:bg-blue/80 dark:hover:bg-sapphire/80 transition-colors text-crust dark:text-base">London</button>
+        <button class="w-full text-left p-3 rounded-lg bg-blue dark:bg-sapphire hover:bg-blue/80 dark:hover:bg-sapphire/80 transition-colors text-crust dark:text-base">Berlin</button>
+        <button class="w-full text-left p-3 rounded-lg bg-green dark:bg-teal hover:bg-green/80 dark:hover:bg-teal/80 transition-colors text-crust dark:text-base">Paris</button>
+        <button class="w-full text-left p-3 rounded-lg bg-blue dark:bg-sapphire hover:bg-blue/80 dark:hover:bg-sapphire/80 transition-colors text-crust dark:text-base">Madrid</button>
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button class="bg-red dark:bg-maroon text-crust dark:text-base rounded-full py-2 px-4 hover:bg-red/80 dark:hover:bg-maroon/80 transition-colors">Previous Question</button>
+      <button class="bg-green dark:bg-teal text-crust dark:text-base rounded-full py-2 px-4 hover:bg-green/80 dark:hover:bg-teal/80 transition-colors">Next Question</button>
+    </div>
+  </div>
+{% endblock %}

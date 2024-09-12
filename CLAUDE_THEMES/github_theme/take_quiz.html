@@ -1,0 +1,32 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Take a Quiz!
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold font-heading mb-6 text-gray-900 dark:text-white">Geography Trivia</h1>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Question 2 of 10</span>
+        <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Time: 1:45</span>
+      </div>
+
+      <p class="text-xl mb-4 text-gray-800 dark:text-gray-200">What is the capital of France?</p>
+
+      <div class="space-y-4">
+        <button class="w-full text-left p-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-gray-800 dark:text-gray-200">London</button>
+        <button class="w-full text-left p-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-gray-800 dark:text-gray-200">Berlin</button>
+        <button class="w-full text-left p-3 rounded-lg bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 transition-colors text-white">Paris</button>
+        <button class="w-full text-left p-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-gray-800 dark:text-gray-200">Madrid</button>
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button class="bg-gray-500 text-white rounded-full py-2 px-4 hover:bg-gray-600 transition-colors">Previous Question</button>
+      <button class="bg-green-500 text-white rounded-full py-2 px-4 hover:bg-green-600 transition-colors">Next Question</button>
+    </div>
+  </div>
+{% endblock %}
