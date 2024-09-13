@@ -5,7 +5,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+	
+	<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
     <title>
       {% block title %}
@@ -15,23 +16,23 @@
     {% load static %}
     {% tailwind_css %}
   </head>
-  <body class="bg-base03 dark:bg-base03 min-h-screen flex flex-col">
-    <header class="bg-blue dark:bg-blue-solarized text-base3 dark:text-base03 shadow-lg">
+  <body class="bg-[#e3e3e3] dark:bg-[#1d1d1d] min-h-screen flex flex-col">
+    <header class="bg-[#2e2e2e] dark:bg-[#4d4d4d] text-[#e3e3e3] dark:text-[#1d1d1d] shadow-lg">
       <div class="container mx-auto px-6 py-4 flex justify-between items-center">
         <a href="#" class="text-2xl font-bold font-heading">QuizMaster</a>
         <nav>
-          <a href="#" class="text-base3 dark:text-base03 hover:text-cyan dark:hover:text-cyan-solarized px-3 py-2 transition-colors">Home</a>
-          <a href="#" class="text-base3 dark:text-base03 hover:text-cyan dark:hover:text-cyan-solarized px-3 py-2 transition-colors">Profile</a>
+          <a href="{% url 'home' %}" class="text-[#e3e3e3] dark:text-[#1d1d1d] hover:text-[#a0a0a0] dark:hover:text-[#d9d9d9] px-3 py-2 transition-colors">Home</a>
+          <a href="{% url 'default_profile' %}" class="text-[#e3e3e3] dark:text-[#1d1d1d] hover:text-[#a0a0a0] dark:hover:text-[#d9d9d9] px-3 py-2 transition-colors">Profile</a>
         </nav>
       </div>
     </header>
-    <main class="container mx-auto px-6 py-8 text-base00 dark:text-base3" role="main">
+    <main class="container mx-auto px-6 py-8" role="main">
       {% block content %}
         <!-- Content will be inserted here -->
       {% endblock %}
     </main>
 
-    <footer class="container mx-auto px-6 py-3 text-center text-base01 dark:text-base1">
+    <footer class="container mx-auto px-6 py-3 text-center text-[#2e2e2e] dark:text-[#d9d9d9]">
       <p>&copy; 2024 QuizMaster. All rights reserved.</p>
     </footer>
   </body>
