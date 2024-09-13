@@ -1,0 +1,5 @@
+Authentication and Login:
+	- Model Form
+	- UserCreationForm / Class from django.contrib
+	- User / Class from django.contrib
+	- 
