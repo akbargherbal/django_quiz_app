@@ -1,50 +1,43 @@
 {% extends 'quizzes/base.html' %}
 {% load static %}
 
-{% block title %}
-  Create a Quiz
-{% endblock %}
+{% block title %}Create a Quiz{% endblock %}
 
 {% block extra_head %}
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 {% endblock %}
 
 {% block content %}
-  <h2 id="create-new-quiz" class="text-3xl font-heading font-bold mb-6 text-slate-800 dark:text-slate-100">Create New Quiz</h2>
+  <h2 class="text-3xl font-bold mb-6">Create a New Quiz</h2>
 
-  <form hx-post="{% url 'quiz_create' %}" hx-target="#quiz-form-container" class="space-y-6">
+  <form hx-post="{% url 'quiz_create' %}" hx-swap="outerHTML" class="space-y-6">
     {% csrf_token %}
-    <div>
-      <label for="id_title" class="block mb-2 font-semibold text-slate-700 dark:text-slate-300">Quiz Title</label>
-      {{ form.title }}
-    </div>
+    {{ quiz_form.as_p }}
 
-    <div>
-      <label for="id_description" class="block mb-2 font-semibold text-slate-700 dark:text-slate-300">Description</label>
-      {{ form.description }}
-    </div>
-
-    <div>
-      <label for="id_category" class="block mb-2 font-semibold text-slate-700 dark:text-slate-300">Category</label>
-      {{ form.category }}
-    </div>
-
-    <div id="questions-container" class="space-y-6">
+    <div id="questions-container">
       {{ question_formset.management_form }}
       {% for question_form in question_formset %}
-        {% include 'quizzes/question_form.html' with question_form=question_form question_index=forloop.counter0 %}
+        <div class="question-form mb-4">
+          <h3 class="text-xl font-bold mb-2">Question {{ forloop.counter }}</h3>
+          {{ question_form.as_p }}
+          <div class="answer-formset">
+            {{ question_form.answerset_set.management_form }}
+            {% for answer_form in question_form.answerset_set %}
+              {{ answer_form.as_p }}
+            {% endfor %}
+          </div>
+        </div>
       {% endfor %}
     </div>
 
-    <div class="flex justify-between items-center">
-      <button hx-get="{% url 'add_question' %}" 
-              hx-target="#questions-container" 
-              hx-swap="beforeend"
-              type="button" 
-              class="bg-sky-500 text-white rounded-full py-2 px-4 hover:bg-sky-600 transition-colors">
-        Add Question
-      </button>
-      <button type="submit" class="bg-emerald-500 text-white rounded-full py-2 px-4 hover:bg-emerald-600 transition-colors">Create Quiz</button>
-    </div>
+    <button hx-get="{% url 'add_question' %}" 
+            hx-target="#questions-container" 
+            hx-swap="beforeend" 
+            type="button" 
+            class="bg-blue-500 text-white px-4 py-2 rounded">
+      Add Question
+    </button>
+
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Create Quiz</button>
   </form>
 {% endblock %}

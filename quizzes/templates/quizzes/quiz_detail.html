@@ -1,0 +1,23 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block content %}
+  <h2 class="text-3xl font-bold mb-6">{{ quiz.title }}</h2>
+  <p class="mb-4">{{ quiz.description }}</p>
+  <p class="mb-4">Category: {{ quiz.category }}</p>
+
+  <h3 class="text-2xl font-bold mb-4">Questions:</h3>
+  <ol class="list-decimal list-inside">
+    {% for question in quiz.questions.all %}
+      <li class="mb-4">
+        {{ question.text }}
+        <ul class="list-disc list-inside ml-4">
+          {% for answer in question.answers.all %}
+            <li>{{ answer.text }} {% if answer.is_correct %}(Correct){% endif %}</li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ol>
+{% endblock %}

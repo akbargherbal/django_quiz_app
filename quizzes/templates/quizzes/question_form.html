@@ -1,28 +1,10 @@
-<div class="question-block bg-white dark:bg-slate-700 p-6 rounded-lg shadow-md">
-  <h3 class="text-xl font-heading font-semibold mb-4 text-slate-800 dark:text-slate-100">Question {{ question_index|add:1 }}</h3>
-
-  <div class="mb-4">
-    <label for="{{ question_form.text.id_for_label }}" class="block mb-2 font-semibold text-slate-700 dark:text-slate-300">Question Text</label>
-    {{ question_form.text }}
-  </div>
-
-  <div class="space-y-2">
-    {{ question_form.answer_formset.management_form }}
-    {% for answer_form in question_form.answer_formset %}
-      <div>
-        {{ answer_form.text }}
-        <label for="{{ answer_form.is_correct.id_for_label }}" class="ml-2 text-slate-700 dark:text-slate-300">
-          {{ answer_form.is_correct }} Correct Answer
-        </label>
-      </div>
+<div class="question-form mb-4">
+  <h3 class="text-xl font-bold mb-2">Question {{ form_index|add:1 }}</h3>
+  {{ question_form.as_p }}
+  <div class="answer-formset">
+    {{ answer_formset.management_form }}
+    {% for answer_form in answer_formset %}
+      {{ answer_form.as_p }}
     {% endfor %}
   </div>
-
-  <button hx-get="{% url 'remove_question' %}" 
-          hx-target="closest .question-block" 
-          hx-swap="outerHTML" 
-          type="button" 
-          class="mt-4 bg-red-500 text-white rounded-full py-2 px-4 hover:bg-red-600 transition-colors">
-    Remove Question
-  </button>
 </div>
