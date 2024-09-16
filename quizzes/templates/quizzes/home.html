@@ -1,56 +1,129 @@
 {% extends 'quizzes/base.html' %}
 
 {% block title %}
-  Quizzes Home Page
+  QuizMaster - Home
 {% endblock %}
 
 {% block content %}
-  <section class="mb-8">
-    <h2 class="font-montserrat text-2xl font-bold mb-4 text-[#0c1021]">Featured Quizzes</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
-        <h3 class="font-montserrat font-bold mb-2 text-[#9cd9e8] dark:text-[#b6e1f2]">Geography Challenge</h3>
-        <p class="mb-4 text-[#d0e1f9] dark:text-[#7a92b3]">15 questions • 1024 plays</p>
-        <button class="bg-[#9cd9e8] text-[#0c1021] rounded-full py-2 px-4 hover:bg-[#9cd9e8]/80 transition-colors dark:bg-[#b6e1f2] dark:text-[#1e2d4d] dark:hover:bg-[#b6e1f2]/80">Start Quiz</button>
-      </div>
-      <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
-        <h3 class="font-montserrat font-bold mb-2 text-[#9cd9e8] dark:text-[#b6e1f2]">Movie Trivia</h3>
-        <p class="mb-4 text-[#d0e1f9] dark:text-[#7a92b3]">20 questions • 768 plays</p>
-        <button class="bg-[#9cd9e8] text-[#0c1021] rounded-full py-2 px-4 hover:bg-[#9cd9e8]/80 transition-colors dark:bg-[#b6e1f2] dark:text-[#1e2d4d] dark:hover:bg-[#b6e1f2]/80">Start Quiz</button>
-      </div>
-      <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
-        <h3 class="font-montserrat font-bold mb-2 text-[#9cd9e8] dark:text-[#b6e1f2]">Science Facts</h3>
-        <p class="mb-4 text-[#d0e1f9] dark:text-[#7a92b3]">10 questions • 512 plays</p>
-        <button class="bg-[#9cd9e8] text-[#0c1021] rounded-full py-2 px-4 hover:bg-[#9cd9e8]/80 transition-colors dark:bg-[#b6e1f2] dark:text-[#1e2d4d] dark:hover:bg-[#b6e1f2]/80">Start Quiz</button>
-      </div>
-    </div>
-  </section>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-slate-800 dark:text-slate-200">Welcome to QuizMaster</h1>
 
-  <section class="mb-8">
-    <h2 class="font-montserrat text-2xl font-bold mb-4 text-[#0c1021]">Popular Categories</h2>
-    <div class="flex flex-wrap gap-2">
-      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">History</button>
-      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Sports</button>
-      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Music</button>
-      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Art</button>
-      <button class="bg-[#4f6e8f] text-[#d0e1f9] rounded-full py-2 px-4 hover:bg-[#4f6e8f]/80 transition-colors dark:bg-[#7a92b3] dark:text-[#1e2d4d] dark:hover:bg-[#7a92b3]/80">Technology</button>
-    </div>
-  </section>
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-slate-700 dark:text-slate-300">Featured Quizzes</h2>
+      {% if quizzes %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for quiz in quizzes %}
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+              <div class="p-6">
+                <h3 class="font-bold text-xl mb-2 text-slate-800 dark:text-slate-200">{{ quiz.title }}</h3>
+                <p class="text-slate-600 dark:text-slate-400 mb-4">{{ quiz.description|truncatewords:20 }}</p>
+                <div class="flex justify-between items-center text-sm text-slate-500 dark:text-slate-400">
+                  <span>{{ quiz.questions.count }} questions</span>
+                  <span>{{ quiz.quizattempt_set.count }} plays</span>
+                </div>
+              </div>
+              <div class="px-6 py-4 bg-slate-50 dark:bg-slate-700">
+                <a href="{% url 'quiz_take' quiz.id %}" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                  Start Quiz
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
 
-  <section>
-    <h2 class="font-montserrat text-2xl font-bold mb-4 text-[#0c1021]">Leaderboard</h2>
-    <div class="bg-[#0c1021] rounded-lg p-4 shadow-md dark:bg-[#1e2d4d] dark:shadow-none">
-      <div class="flex items-center justify-between mb-2">
-        <span class="font-bold text-[#9cd9e8] dark:text-[#b6e1f2]">Top Players</span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-[#f7d9e8]">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-        </svg>
+        {% if quizzes.has_other_pages %}
+          <div class="flex justify-center mt-8">
+            <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+              {% if quizzes.has_previous %}
+                <a href="?page={{ quizzes.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 bg-white text-sm font-medium text-slate-500 hover:bg-slate-50">
+                  <span class="sr-only">Previous</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              {% endif %}
+
+              {% for i in quizzes.paginator.page_range %}
+                {% if quizzes.number == i %}
+                  <span class="relative inline-flex items-center px-4 py-2 border border-slate-300 bg-blue-50 text-sm font-medium text-blue-700">
+                    {{ i }}
+                  </span>
+                {% else %}
+                  <a href="?page={{ i }}" class="relative inline-flex items-center px-4 py-2 border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50">
+                    {{ i }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+
+              {% if quizzes.has_next %}
+                <a href="?page={{ quizzes.next_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 bg-white text-sm font-medium text-slate-500 hover:bg-slate-50">
+                  <span class="sr-only">Next</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              {% endif %}
+            </nav>
+          </div>
+        {% endif %}
+      {% else %}
+        <p class="text-center text-slate-600 dark:text-slate-400">No quizzes available yet. Be the first to create one!</p>
+      {% endif %}
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-slate-700 dark:text-slate-300">Popular Categories</h2>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">History</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Science</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Literature</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Geography</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Pop Culture</a>
       </div>
-      <ol class="list-decimal list-inside text-[#d0e1f9] dark:text-[#7a92b3]">
-        <li>Player1 - 1500 points</li>
-        <li>Player2 - 1350 points</li>
-        <li>Player3 - 1200 points</li>
-      </ol>
-    </div>
-  </section>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold mb-6 text-slate-700 dark:text-slate-300">Top Quiz Masters</h2>
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+        <ul class="divide-y divide-slate-200 dark:divide-slate-700">
+          <li class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-10 w-10 rounded-full" src="/api/placeholder/40/40" alt="User avatar">
+              <div class="ml-3">
+                <p class="text-sm font-medium text-slate-900 dark:text-slate-200">Jane Doe</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">50 quizzes created</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Top Creator
+            </span>
+          </li>
+          <li class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-10 w-10 rounded-full" src="/api/placeholder/40/40" alt="User avatar">
+              <div class="ml-3">
+                <p class="text-sm font-medium text-slate-900 dark:text-slate-200">John Smith</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">45 quizzes created</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              Rising Star
+            </span>
+          </li>
+          <li class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-10 w-10 rounded-full" src="/api/placeholder/40/40" alt="User avatar">
+              <div class="ml-3">
+                <p class="text-sm font-medium text-slate-900 dark:text-slate-200">Alice Johnson</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">40 quizzes created</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              Consistent
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
 {% endblock %}

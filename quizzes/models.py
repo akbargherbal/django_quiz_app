@@ -66,3 +66,10 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# Explain in details:
+# ForeignKey
+# related_name
+# OneToOneField
+# DurationField

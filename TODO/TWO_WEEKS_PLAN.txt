@@ -1,0 +1,41 @@
+Project Checklist
+-----------------
+
+### Views and Templates Checklist
+
+*   Update home view to display a list of available quizzes
+*   Create a template for displaying quiz details on the home page
+*   Implement quiz\_take view to load quiz questions
+*   Create a template for the quiz-taking page
+*   Implement quiz\_results view to display user's score and answers
+*   Create a template for the quiz results page
+*   Update profile view to display user's quiz history
+*   Create a template for the user profile page
+*   Implement error handling in views
+*   Add pagination for quiz lists if necessary
+
+### HTMX Integration Checklist
+
+*   Add HTMX for dynamic loading of quiz questions during quiz-taking
+*   Implement HTMX for real-time form validation feedback
+*   Use HTMX for pagination in quiz lists
+*   Implement HTMX for dynamic updating of quiz scores
+*   Add HTMX for live search functionality in quiz finding
+*   Use HTMX for dynamically updating user profile information
+*   Implement HTMX for adding/removing questions in quiz editing
+*   Add HTMX for updating quiz attempt progress
+*   Use HTMX for dynamically loading more quizzes on the home page
+*   Ensure all HTMX integrations have appropriate fallbacks for non-JS browsers
+
+### Forms and User Input Checklist
+
+*   Create a form for quiz-taking (submitting answers)
+*   Implement form validation for quiz submission
+*   Create a form for user profile editing
+*   Implement form validation for profile editing
+*   Add CSRF protection to all forms
+*   Implement error messages for form validation failures
+*   Create a search form for finding quizzes
+*   Implement form handling in views for all new forms
+*   Add client-side form validation where appropriate
+*   Ensure all forms are styled consistently with Tailwind CSS

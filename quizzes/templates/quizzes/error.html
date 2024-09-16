@@ -1,0 +1,13 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8">
+  <div class="bg-white dark:bg-[#0d1117] rounded-lg shadow-lg p-6">
+    <h1 class="text-3xl font-bold mb-4 text-[#6e7681] dark:text-[#c9d1d9]">{{ error_title }}</h1>
+    <p class="text-[#8b949e] dark:text-[#8b949e] mb-6">{{ error_message }}</p>
+    <a href="{% url 'home' %}" class="bg-[#238636] text-white rounded-full py-2 px-4 hover:bg-[#238636]/80 transition-colors">Return to Home</a>
+  </div>
+</div>
+{% endblock %}

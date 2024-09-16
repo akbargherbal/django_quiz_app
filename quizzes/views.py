@@ -1,12 +1,34 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .forms import QuizForm, QuestionFormSet, AnswerFormSet
-from .models import Quiz, Question, Answer
+from .models import Quiz, Question, Answer, QuizAttempt, UserAnswer, UserProfile, User
+from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+# Add this to the top of your views.py file
+def handle_error(request, error_title, error_message):
+    return render(
+        request,
+        "quizzes/error.html",
+        {"error_title": error_title, "error_message": error_message},
+    )
 
 
 def home(request):
-    return render(request, "quizzes/home.html")
+    all_quizzes = Quiz.objects.all().order_by("-created_at")
+    paginator = Paginator(all_quizzes, 6)  # Show 6 quizzes per page
+    page = request.GET.get("page")
+
+    try:
+        quizzes = paginator.page(page)
+    except PageNotAnInteger:
+        quizzes = paginator.page(1)
+    except EmptyPage:
+        quizzes = paginator.page(paginator.num_pages)
+
+    return render(request, "quizzes/home.html", {"quizzes": quizzes})
 
 
 @login_required
@@ -67,14 +89,83 @@ def quiz_detail(request, quiz_id):
     return render(request, "quizzes/quiz_detail.html", {"quiz": quiz})
 
 
+# Update the quiz_take view
 def quiz_take(request, quiz_id):
-    # We'll add quiz loading logic later
-    return render(request, "quizzes/take_quiz.html")
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+        questions = quiz.questions.all().order_by("order")
+        if not questions.exists():
+            return handle_error(
+                request, "Quiz Unavailable", "This quiz doesn't have any questions yet."
+            )
+        return render(
+            request, "quizzes/take_quiz.html", {"quiz": quiz, "questions": questions}
+        )
+    except Http404:
+        return handle_error(
+            request, "Quiz Not Found", "The requested quiz does not exist."
+        )
 
 
 def quiz_results(request, quiz_id):
-    # We'll add quiz loading logic later
-    return render(request, "quizzes/quiz_results.html")
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+        if request.method != "POST":
+            return redirect("quiz_take", quiz_id=quiz_id)
+
+        if request.method == "POST":
+            score = 0
+            total_questions = quiz.questions.count()
+
+            quiz_attempt = QuizAttempt.objects.create(
+                quiz=quiz,
+                user=request.user if request.user.is_authenticated else None,
+                started_at=timezone.now(),
+            )
+
+            user_answers = []
+
+            for question in quiz.questions.all():
+                answer_id = request.POST.get(f"question_{question.id}")
+                if answer_id:
+                    answer = Answer.objects.get(id=answer_id)
+                    is_correct = answer.is_correct
+                    if is_correct:
+                        score += 1
+
+                    user_answer = UserAnswer.objects.create(
+                        quiz_attempt=quiz_attempt,
+                        question=question,
+                        answer=answer,
+                        is_correct=is_correct,
+                    )
+                    user_answers.append(user_answer)
+
+            quiz_attempt.score = score
+            quiz_attempt.completed_at = timezone.now()
+            quiz_attempt.save()
+
+            return render(
+                request,
+                "quizzes/quiz_results.html",
+                {
+                    "quiz": quiz,
+                    "score": score,
+                    "total_questions": total_questions,
+                    "user_answers": user_answers,
+                    "quiz_attempt": quiz_attempt,
+                },
+            )
+
+        return redirect("quiz_take", quiz_id=quiz_id)
+
+    except Http404:
+        return handle_error(
+            request, "Quiz Not Found", "The requested quiz does not exist."
+        )
+
+    except Exception as e:
+        return handle_error(request, "Error", f"An unexpected error occurred: {str(e)}")
 
 
 def default_profile(request):
@@ -83,6 +174,21 @@ def default_profile(request):
     return redirect("profile", member_id=1)
 
 
+# Update the member_profile view
 def member_profile(request, member_id):
-    # We'll add member loading logic later
-    return render(request, "quizzes/profile.html", {"member_id": member_id})
+    try:
+        user = get_object_or_404(User, id=member_id)
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        quiz_attempts = QuizAttempt.objects.filter(user=user).order_by("-completed_at")
+        created_quizzes = user.quiz_set.all().order_by("-created_at")
+
+        context = {
+            "profile": profile,
+            "quiz_attempts": quiz_attempts,
+            "created_quizzes": created_quizzes,
+        }
+        return render(request, "quizzes/profile.html", context)
+    except Http404:
+        return handle_error(
+            request, "User Not Found", "The requested user profile does not exist."
+        )
