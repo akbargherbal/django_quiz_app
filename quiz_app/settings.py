@@ -130,3 +130,10 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CSRF_TRUSTED_ORIGINS = ['https://8000-idx-djangoquizapp-1726576189892.cluster-blu4edcrfnajktuztkjzgyxzek.cloudworkstations.dev']
+
+ALLOWED_HOSTS = ['8000-idx-djangoquizapp-1726576189892.cluster-blu4edcrfnajktuztkjzgyxzek.cloudworkstations.dev', 'localhost', '127.0.0.1']
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
