@@ -8,7 +8,17 @@
   <div class="max-w-3xl mx-auto">
     <h1 class="text-3xl font-bold font-heading mb-6 text-slate-800 dark:text-slate-200">{{ quiz.title }}</h1>
 
-    <form method="post" action="{% url 'quiz_results' quiz.id %}">
+    {% if messages %}
+      <div class="mb-6">
+        {% for message in messages %}
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'quiz_results' quiz.id %}" id="quiz-form">
       {% csrf_token %}
       {% for question in questions %}
         <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
@@ -21,7 +31,7 @@
           <div class="space-y-4">
             {% for answer in question.answers.all %}
               <label class="block">
-                <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" class="hidden peer">
+                <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" class="hidden peer" required>
                 <div class="w-full text-left p-3 rounded-lg bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors text-slate-800 dark:text-slate-200 peer-checked:bg-slate-500 dark:peer-checked:bg-slate-500 peer-checked:text-white">
                   {{ answer.text }}
                 </div>
@@ -36,4 +46,23 @@
       </div>
     </form>
   </div>
+
+  <script>
+    document.getElementById('quiz-form').addEventListener('submit', function(event) {
+      const questions = document.querySelectorAll('.question-form');
+      let allAnswered = true;
+
+      questions.forEach(question => {
+        const answered = question.querySelector('input[type="radio"]:checked');
+        if (!answered) {
+          allAnswered = false;
+        }
+      });
+
+      if (!allAnswered) {
+        event.preventDefault();
+        alert('Please answer all questions before submitting.');
+      }
+    });
+  </script>
 {% endblock %}

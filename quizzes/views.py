@@ -89,7 +89,6 @@ def quiz_detail(request, quiz_id):
     return render(request, "quizzes/quiz_detail.html", {"quiz": quiz})
 
 
-# Update the quiz_take view
 def quiz_take(request, quiz_id):
     try:
         quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -105,7 +104,6 @@ def quiz_take(request, quiz_id):
         return handle_error(
             request, "Quiz Not Found", "The requested quiz does not exist."
         )
-
 
 def quiz_results(request, quiz_id):
     try:
