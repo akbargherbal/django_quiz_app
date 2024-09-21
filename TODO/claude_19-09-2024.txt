@@ -1,0 +1,1879 @@
+1. Project Name: QuizMaster (Quiz App)
+2. Project Description:
+QuizMaster is a Django-based web application for creating and taking quizzes. It's designed to provide an interactive and engaging platform for users to test their knowledge across various topics. Currently I aim only to implement multiple choice quiz type.
+
+3. Current Stage of development (referring to the stages mentioned in the template):
+- **Stage:** Views and Templates
+  * **Status:** Mostly Completed
+  * **Notes:** Views and templates for home, quiz taking, quiz results, and user profiles implemented. Some refinement may be needed.
+
+- **Stage:** Forms and User Input
+  * **Status:** Mostly Completed
+  * **Notes:** Forms for quiz creation and quiz-taking implemented. May need further refinement for edge cases.
+
+4. Latest Implementation:
+--- Codebase Start ---
+└── .git/ [Ignored]
+��── .gitignore [Ignored]
+└── .idx/
+└── CLAUDE_THEMES/
+└── ILLUSTRATIONS/
+└── MY_LEARNING/
+├── README.md
+  Content:
+# QuizMaster
+
+QuizMaster is a Django-based web application for creating and taking quizzes. It's designed to provide an interactive and engaging platform for users to test their knowledge across various topics.
+
+## Features
+
+- Create and manage quizzes with multiple-choice questions
+- Take quizzes and receive instant feedback
+- User profiles with quiz history and statistics
+- Responsive design for desktop and mobile devices
+- HTMX integration for dynamic content loading
+- Dark mode support
+
+## Technologies Used
+
+- Django 5.1.1
+- Python 3.x
+- HTMX for dynamic interactions
+- Tailwind CSS for styling
+- SQLite database (default)
+
+## Setup and Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/quizmaster.git
+   cd quizmaster
+   ```
+
+2. Create a virtual environment and activate it:
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Apply the database migrations:
+   ```
+   python manage.py migrate
+   ```
+
+5. Create a superuser:
+   ```
+   python manage.py createsuperuser
+   ```
+
+6. Run the development server:
+   ```
+   python manage.py runserver
+   ```
+
+7. Visit `http://127.0.0.1:8000` in your web browser to see the application.
+
+## Usage
+
+- Use the admin interface (`http://127.0.0.1:8000/admin/`) to create quizzes and manage users.
+- Register a new account or log in to an existing one to start taking quizzes.
+- Create your own quizzes and share them with others.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- Django documentation
+- HTMX documentation
+- Tailwind CSS documentation
+
+## Contact
+
+For any queries or support, please contact [Your Name] at [your.email@example.com].
+
+
+
+└── TODO/
+├── db.sqlite3 [Excluded]
+└── idx_customization/
+├── manage.py
+  Content:
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+import sys
+
+
+def main():
+    """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quiz_app.settings')
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+
+if __name__ == '__main__':
+    main()
+
+
+├── multiple_monitors_workspace.code-workspace
+  Content:
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}
+
+└── quiz_app/
+  ├── __init__.py
+    Content:
+
+
+  ├── asgi.py
+    Content:
+"""
+ASGI config for quiz_app project.
+
+It exposes the ASGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/
+"""
+
+import os
+
+from django.core.asgi import get_asgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quiz_app.settings')
+
+application = get_asgi_application()
+
+
+  ├── settings.py
+    Content:
+from pathlib import Path
+from shutil import which
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+TAILWIND_APP_NAME = "theme"
+NPM_BIN_PATH = which("npm")
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+COMPRESS_ROOT = BASE_DIR / "static"
+COMPRESS_ENABLED = True
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = "django-insecure-&@8(m@*)qmsa&$_*3qe%52mq(uq!b7um6w1yk((^6!vua7$4%r"
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "quizzes",
+    "tailwind",
+    'theme',
+    "django_browser_reload",
+    "compressor",
+]
+
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
+
+ROOT_URLCONF = "quiz_app.urls"
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "theme" / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = "quiz_app.wsgi.application"
+
+
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+
+# Password validation
+# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
+
+LANGUAGE_CODE = "en-us"
+
+TIME_ZONE = "UTC"
+
+USE_I18N = True
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_URL = "static/"
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CSRF_TRUSTED_ORIGINS = ['https://8000-idx-djangoquizapp-1726576189892.cluster-blu4edcrfnajktuztkjzgyxzek.cloudworkstations.dev']
+
+ALLOWED_HOSTS = ['8000-idx-djangoquizapp-1726576189892.cluster-blu4edcrfnajktuztkjzgyxzek.cloudworkstations.dev', 'localhost', '127.0.0.1']
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+  ├── urls.py
+    Content:
+"""
+URL configuration for quiz_app project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("quizzes.urls")),
+    path("__reload__/", include("django_browser_reload.urls")),
+]
+
+
+  ├── wsgi.py
+    Content:
+"""
+WSGI config for quiz_app project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quiz_app.settings')
+
+application = get_wsgi_application()
+
+
+└── quizzes/
+  ├── __init__.py
+    Content:
+
+
+  ├── admin.py
+    Content:
+from django.contrib import admin
+from .models import Quiz, Question, Answer, QuizAttempt, UserAnswer, UserProfile
+
+admin.site.register(Quiz)
+admin.site.register(Question)
+admin.site.register(Answer)
+admin.site.register(QuizAttempt)
+admin.site.register(UserAnswer)
+admin.site.register(UserProfile)
+
+  ├── apps.py
+    Content:
+from django.apps import AppConfig
+
+
+class QuizzesConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'quizzes'
+
+
+  ├── forms.py
+    Content:
+from django import forms
+from django.forms import inlineformset_factory
+from .models import Quiz, Question, Answer
+
+class QuizForm(forms.ModelForm):
+    class Meta:
+        model = Quiz
+        fields = ['title', 'description', 'category']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400'}),
+            'description': forms.Textarea(attrs={'class': 'w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400', 'rows': 3}),
+            'category': forms.Select(attrs={'class': 'w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400'}),
+        }
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['text']
+        widgets = {
+            'text': forms.TextInput(attrs={'class': 'w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400'}),
+        }
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['text', 'is_correct']
+        widgets = {
+            'text': forms.TextInput(attrs={'class': 'w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-100 dark:bg-slate-800 focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400'}),
+            'is_correct': forms.CheckboxInput(attrs={'class': 'form-checkbox h-5 w-5 text-sky-500'}),
+        }
+
+QuestionFormSet = inlineformset_factory(Quiz, Question, form=QuestionForm, extra=1, can_delete=True)
+AnswerFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, extra=4, can_delete=True, max_num=4)
+
+  └── management/
+    ├── __init__.py
+      Content:
+
+
+    └── commands/
+      ├── __init__.py
+        Content:
+
+
+      ├── import_quizzes.py
+        Content:
+import os
+import json
+import pandas as pd
+from django.core.management.base import BaseCommand
+from quizzes.models import Quiz, Question, Answer
+from django.contrib.auth.models import User
+from django.db import transaction
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class Command(BaseCommand):
+    help = 'Import quizzes from CSV files in a specified directory'
+
+    def add_arguments(self, parser):
+        parser.add_argument('directory', type=str, help='Path to the directory containing CSV files')
+
+    def handle(self, *args, **options):
+        directory = options['directory']
+        quiz_info_file = os.path.join(directory, 'quiz_info.json')
+
+        try:
+            with open(quiz_info_file, 'r') as f:
+                quiz_info = json.load(f)
+        except FileNotFoundError:
+            logger.error(f"Quiz info file not found: {quiz_info_file}")
+            return
+        except json.JSONDecodeError:
+            logger.error(f"Invalid JSON in quiz info file: {quiz_info_file}")
+            return
+
+        # Get or create a default user (you may want to adjust this)
+        user, created = User.objects.get_or_create(username='admin')
+
+        for quiz_data in quiz_info:
+            file_name = quiz_data['file_name']
+            topic_title = quiz_data['topic_title']
+            category_description = quiz_data['category_description']
+
+            csv_file = os.path.join(directory, file_name)
+
+            try:
+                self.import_quiz(csv_file, topic_title, category_description, user)
+            except Exception as e:
+                logger.error(f"Error importing quiz from {file_name}: {str(e)}")
+
+    def import_quiz(self, csv_file, quiz_title, quiz_description, user):
+        logger.info(f"Importing quiz: {quiz_title}")
+
+        try:
+            df = pd.read_csv(csv_file)
+        except FileNotFoundError:
+            logger.error(f"CSV file not found: {csv_file}")
+            return
+        except pd.errors.EmptyDataError:
+            logger.error(f"CSV file is empty: {csv_file}")
+            return
+        except pd.errors.ParserError:
+            logger.error(f"Error parsing CSV file: {csv_file}")
+            return
+
+        required_columns = ['question', 'option1', 'option2', 'option3', 'option4', 'correct_answer']
+        missing_columns = set(required_columns) - set(df.columns)
+        if missing_columns:
+            logger.error(f'CSV file is missing required columns: {", ".join(missing_columns)}')
+            return
+
+        try:
+            with transaction.atomic():
+                quiz = Quiz.objects.create(
+                    title=quiz_title,
+                    description=quiz_description,
+                    category="Django Fundamentals",
+                    creator=user
+                )
+
+                for _, row in df.iterrows():
+                    question = Question.objects.create(
+                        quiz=quiz,
+                        text=row['question']
+                    )
+
+                    for i in range(1, 5):
+                        option = row[f'option{i}']
+                        if pd.notna(option):
+                            Answer.objects.create(
+                                question=question,
+                                text=str(option),
+                                is_correct=(i == row['correct_answer'])
+                            )
+
+                    if 'option5' in df.columns and pd.notna(row['option5']):
+                        Answer.objects.create(
+                            question=question,
+                            text=str(row['option5']),
+                            is_correct=(5 == row['correct_answer'])
+                        )
+
+            logger.info(f'Successfully imported quiz "{quiz_title}" with {quiz.questions.count()} questions')
+        except Exception as e:
+            logger.error(f"Error creating quiz {quiz_title}: {str(e)}")
+            raise
+
+  └── migrations/
+    ├── 0001_initial.py
+      Content:
+# Generated by Django 5.0.6 on 2024-09-14 04:21
+
+import django.db.models.deletion
+from django.conf import settings
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='Question',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('text', models.TextField()),
+                ('question_type', models.CharField(choices=[('MC', 'Multiple Choice'), ('TF', 'True/False'), ('FIB', 'Fill in the Blank'), ('SO', 'Sorting/Ordering')], max_length=3)),
+                ('order', models.IntegerField(default=0)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Answer',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('text', models.CharField(max_length=200)),
+                ('is_correct', models.BooleanField(default=False)),
+                ('order', models.IntegerField(default=0)),
+                ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='answers', to='quizzes.question')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Quiz',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=200)),
+                ('description', models.TextField(blank=True)),
+                ('category', models.CharField(max_length=50)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.AddField(
+            model_name='question',
+            name='quiz',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='questions', to='quizzes.quiz'),
+        ),
+        migrations.CreateModel(
+            name='QuizAttempt',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('score', models.IntegerField(default=0)),
+                ('time_taken', models.DurationField(blank=True, null=True)),
+                ('started_at', models.DateTimeField(auto_now_add=True)),
+                ('completed_at', models.DateTimeField(blank=True, null=True)),
+                ('quiz', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quizzes.quiz')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='UserAnswer',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('text_answer', models.CharField(blank=True, max_length=200)),
+                ('is_correct', models.BooleanField(default=False)),
+                ('answer', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='quizzes.answer')),
+                ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quizzes.question')),
+                ('quiz_attempt', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_answers', to='quizzes.quizattempt')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='UserProfile',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('bio', models.TextField(blank=True)),
+                ('quizzes_taken', models.IntegerField(default=0)),
+                ('quizzes_created', models.IntegerField(default=0)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+    ]
+
+
+    ├── 0002_remove_answer_order_remove_question_question_type_and_more.py
+      Content:
+# Generated by Django 5.0.6 on 2024-09-14 04:38
+
+import django.db.models.deletion
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('quizzes', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.RemoveField(
+            model_name='answer',
+            name='order',
+        ),
+        migrations.RemoveField(
+            model_name='question',
+            name='question_type',
+        ),
+        migrations.RemoveField(
+            model_name='useranswer',
+            name='text_answer',
+        ),
+        migrations.AlterField(
+            model_name='useranswer',
+            name='answer',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quizzes.answer'),
+        ),
+    ]
+
+
+    ├── 0003_alter_useranswer_answer.py
+      Content:
+# Generated by Django 5.0.6 on 2024-09-14 04:39
+
+import django.db.models.deletion
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('quizzes', '0002_remove_answer_order_remove_question_question_type_and_more'),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name='useranswer',
+            name='answer',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='quizzes.answer'),
+        ),
+    ]
+
+
+    ├── __init__.py
+      Content:
+
+
+  ├── models.py
+    Content:
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Quiz(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    category = models.CharField(max_length=50)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz, related_name="questions", on_delete=models.CASCADE)
+    text = models.TextField()
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.quiz.title} - Question {self.order}"
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(
+        Question, related_name="answers", on_delete=models.CASCADE
+    )
+    text = models.CharField(max_length=200)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.question.text[:20]}... - {self.text[:20]}..."
+
+
+class QuizAttempt(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+    time_taken = models.DurationField(null=True, blank=True)
+    started_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title}"
+
+
+class UserAnswer(models.Model):
+    quiz_attempt = models.ForeignKey(
+        QuizAttempt, related_name="user_answers", on_delete=models.CASCADE
+    )
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.quiz_attempt} - {self.question.text[:20]}..."
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    quizzes_taken = models.IntegerField(default=0)
+    quizzes_created = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
+
+
+# Explain in details:
+# ForeignKey
+# related_name
+# OneToOneField
+# DurationField
+
+  └── templates/
+    ├── list_classes.ipynb
+      Content:
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import regex as re\n",
+    "import os\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from scrapy import Selector\n",
+    "def get_all_classes(text):\n",
+    "    result = Selector(text=str(text)).xpath('//*[@class]//@class').getall()\n",
+    "    result = [x.split() for x in result]\n",
+    "    result = [item for sublist in result for item in sublist]\n",
+    "    return result\n",
+    "\n",
+    "list_txt = []\n",
+    "for root, dirs, files in os.walk('./quizzes'):\n",
+    "    for file in files:\n",
+    "        if file.endswith('.html'):\n",
+    "            list_txt.append(os.path.join(root, file).replace(os.sep, '/'))\n",
+    "\n",
+    "list_classes = []\n",
+    "\n",
+    "for file in list_txt:\n",
+    "    with open(file, 'r', encoding='utf-8') as f:\n",
+    "        text = f.read()\n",
+    "        list_classes.extend(get_all_classes(text))\n",
+    "\n",
+    "set_classes = set(list_classes)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[]"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[c for c in set_classes if '-primary' in c]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'bg-blue-500',\n",
+       " 'bg-green-500',\n",
+       " 'bg-red-500',\n",
+       " 'bg-white',\n",
+       " 'block',\n",
+       " 'border',\n",
+       " 'border-gray-300',\n",
+       " 'container',\n",
+       " 'dark:bg-blue-500',\n",
+       " 'dark:bg-dark-surface',\n",
+       " 'dark:bg-red-500',\n",
+       " 'dark:hover:bg-blue-500',\n",
+       " 'dark:text-gray-400',\n",
+       " 'dark:text-green-500',\n",
+       " 'flex',\n",
+       " 'flex-col',\n",
+       " 'flex-shrink-0',\n",
+       " 'flex-wrap',\n",
+       " 'focus:ring-2',\n",
+       " 'focus:ring-blue-500',\n",
+       " 'font-bold',\n",
+       " 'font-heading',\n",
+       " 'font-montserrat',\n",
+       " 'font-semibold',\n",
+       " 'gap-2',\n",
+       " 'gap-4',\n",
+       " 'grid',\n",
+       " 'grid-cols-1',\n",
+       " 'h-2',\n",
+       " 'h-20',\n",
+       " 'h-5',\n",
+       " 'h-6',\n",
+       " 'hover:bg-blue-500',\n",
+       " 'hover:bg-blue-500/80',\n",
+       " 'hover:bg-green-500/80',\n",
+       " 'hover:text-green-500',\n",
+       " 'items-center',\n",
+       " 'items-start',\n",
+       " 'justify-between',\n",
+       " 'justify-center',\n",
+       " 'list-decimal',\n",
+       " 'list-inside',\n",
+       " 'max-w-3xl',\n",
+       " 'max-w-4xl',\n",
+       " 'mb-2',\n",
+       " 'mb-4',\n",
+       " 'mb-6',\n",
+       " 'mb-8',\n",
+       " 'md:grid-cols-2',\n",
+       " 'md:grid-cols-3',\n",
+       " 'ml-2',\n",
+       " 'mr-2',\n",
+       " 'mt-4',\n",
+       " 'mx-auto',\n",
+       " 'overflow-hidden',\n",
+       " 'p-2',\n",
+       " 'p-3',\n",
+       " 'p-4',\n",
+       " 'p-6',\n",
+       " 'pt-1',\n",
+       " 'px-3',\n",
+       " 'px-4',\n",
+       " 'px-6',\n",
+       " 'py-2',\n",
+       " 'py-3',\n",
+       " 'py-4',\n",
+       " 'py-8',\n",
+       " 'question-block',\n",
+       " 'relative',\n",
+       " 'rounded',\n",
+       " 'rounded-full',\n",
+       " 'rounded-lg',\n",
+       " 'shadow-lg',\n",
+       " 'shadow-md',\n",
+       " 'shadow-none',\n",
+       " 'space-x-4',\n",
+       " 'space-y-2',\n",
+       " 'space-y-4',\n",
+       " 'space-y-6',\n",
+       " 'text-2xl',\n",
+       " 'text-3xl',\n",
+       " 'text-blue-500',\n",
+       " 'text-center',\n",
+       " 'text-gray-600',\n",
+       " 'text-green-500',\n",
+       " 'text-left',\n",
+       " 'text-lg',\n",
+       " 'text-red-500',\n",
+       " 'text-sm',\n",
+       " 'text-white',\n",
+       " 'text-xl',\n",
+       " 'text-xs',\n",
+       " 'transition-colors',\n",
+       " 'w-20',\n",
+       " 'w-5',\n",
+       " 'w-6',\n",
+       " 'w-full',\n",
+       " 'whitespace-nowrap'}"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "set_classes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bg-white\n",
+      "shadow-none\n",
+      "space-x-4\n",
+      "list-inside\n",
+      "rounded-full\n",
+      "flex-shrink-0\n",
+      "px-4\n",
+      "justify-center\n",
+      "text-xl\n",
+      "font-semibold\n",
+      "py-4\n",
+      "list-decimal\n",
+      "px-6\n",
+      "mb-8\n",
+      "gap-4\n",
+      "px-3\n",
+      "grid-cols-1\n",
+      "space-y-2\n",
+      "mt-4\n",
+      "gap-2\n",
+      "hover:bg-blue-500\n",
+      "dark:bg-blue-500\n",
+      "hover:bg-green-500/80\n",
+      "p-3\n",
+      "text-white\n",
+      "transition-colors\n",
+      "font-heading\n",
+      "whitespace-nowrap\n",
+      "dark:text-gray-400\n",
+      "items-start\n",
+      "text-blue-500\n",
+      "mx-auto\n",
+      "pt-1\n",
+      "justify-between\n",
+      "rounded-lg\n",
+      "flex-wrap\n",
+      "flex\n",
+      "bg-green-500\n",
+      "md:grid-cols-3\n",
+      "text-3xl\n",
+      "mr-2\n",
+      "max-w-4xl\n",
+      "dark:bg-dark-surface\n",
+      "text-lg\n",
+      "block\n",
+      "h-2\n",
+      "ml-2\n",
+      "flex-col\n",
+      "text-green-500\n",
+      "dark:hover:bg-blue-500\n",
+      "font-montserrat\n",
+      "h-20\n",
+      "p-6\n",
+      "items-center\n",
+      "shadow-lg\n",
+      "dark:text-green-500\n",
+      "mb-6\n",
+      "focus:ring-2\n",
+      "bg-red-500\n",
+      "max-w-3xl\n",
+      "focus:ring-blue-500\n",
+      "hover:text-green-500\n",
+      "md:grid-cols-2\n",
+      "mb-2\n",
+      "text-red-500\n",
+      "py-8\n",
+      "space-y-4\n",
+      "overflow-hidden\n",
+      "shadow-md\n",
+      "dark:bg-red-500\n",
+      "border-gray-300\n",
+      "py-3\n",
+      "container\n",
+      "w-20\n",
+      "text-center\n",
+      "text-sm\n",
+      "question-block\n",
+      "border\n",
+      "rounded\n",
+      "text-xs\n",
+      "mb-4\n",
+      "hover:bg-blue-500/80\n",
+      "space-y-6\n",
+      "bg-blue-500\n",
+      "p-2\n",
+      "py-2\n",
+      "text-left\n",
+      "h-5\n",
+      "relative\n",
+      "font-bold\n",
+      "text-2xl\n",
+      "text-gray-600\n",
+      "p-4\n",
+      "w-5\n",
+      "h-6\n",
+      "grid\n",
+      "w-full\n",
+      "w-6\n"
+     ]
+    }
+   ],
+   "source": [
+    "for c in set_classes:\n",
+    "    print(c)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
+
+
+    └── quizzes/
+      ├── base.html
+        Content:
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+    <title>
+      {% block title %}
+        Quiz App
+      {% endblock %}
+    </title>
+    {% load static %}
+    {% tailwind_css %}
+  </head>
+  <body class="bg-[#e3e3e3] dark:bg-[#1d1d1d] min-h-screen flex flex-col">
+    <header class="bg-[#2e2e2e] dark:bg-[#4d4d4d] text-[#e3e3e3] dark:text-[#1d1d1d] shadow-lg">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-2xl font-bold font-heading">QuizMaster</a>
+        <nav>
+          <a href="{% url 'home' %}" class="text-[#e3e3e3] dark:text-[#1d1d1d] hover:text-[#a0a0a0] dark:hover:text-[#d9d9d9] px-3 py-2 transition-colors">Home</a>
+          <a href="{% url 'default_profile' %}" class="text-[#e3e3e3] dark:text-[#1d1d1d] hover:text-[#a0a0a0] dark:hover:text-[#d9d9d9] px-3 py-2 transition-colors">Profile</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container mx-auto px-6 py-8" role="main">
+      {% block content %}
+        <!-- Content will be inserted here -->
+      {% endblock %}
+    </main>
+
+    <footer class="container mx-auto px-6 py-3 text-center text-[#2e2e2e] dark:text-[#d9d9d9]">
+      <p>&copy; 2024 QuizMaster. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
+
+      ├── create_quiz.html
+        Content:
+{% extends 'quizzes/base.html' %}
+{% load static %}
+
+{% block title %}Create a Quiz{% endblock %}
+
+{% block extra_head %}
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+{% endblock %}
+
+{% block content %}
+  <h2 class="text-3xl font-bold mb-6">Create a New Quiz</h2>
+
+  <form hx-post="{% url 'quiz_create' %}" hx-swap="outerHTML" class="space-y-6">
+    {% csrf_token %}
+    {{ quiz_form.as_p }}
+
+    <div id="questions-container">
+      {{ question_formset.management_form }}
+      {% for question_form in question_formset %}
+        <div class="question-form mb-4">
+          <h3 class="text-xl font-bold mb-2">Question {{ forloop.counter }}</h3>
+          {{ question_form.as_p }}
+          <div class="answer-formset">
+            {{ question_form.answerset_set.management_form }}
+            {% for answer_form in question_form.answerset_set %}
+              {{ answer_form.as_p }}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button hx-get="{% url 'add_question' %}" 
+            hx-target="#questions-container" 
+            hx-swap="beforeend" 
+            type="button" 
+            class="bg-blue-500 text-white px-4 py-2 rounded">
+      Add Question
+    </button>
+
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Create Quiz</button>
+  </form>
+{% endblock %}
+
+      ├── error.html
+        Content:
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8">
+  <div class="bg-white dark:bg-[#0d1117] rounded-lg shadow-lg p-6">
+    <h1 class="text-3xl font-bold mb-4 text-[#6e7681] dark:text-[#c9d1d9]">{{ error_title }}</h1>
+    <p class="text-[#8b949e] dark:text-[#8b949e] mb-6">{{ error_message }}</p>
+    <a href="{% url 'home' %}" class="bg-[#238636] text-white rounded-full py-2 px-4 hover:bg-[#238636]/80 transition-colors">Return to Home</a>
+  </div>
+</div>
+{% endblock %}
+
+      ├── home.html
+        Content:
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  QuizMaster - Home
+{% endblock %}
+
+{% block content %}
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-slate-800 dark:text-slate-200">Welcome to QuizMaster</h1>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-slate-700 dark:text-slate-300">Featured Quizzes</h2>
+      {% if quizzes %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for quiz in quizzes %}
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+              <div class="p-6">
+                <h3 class="font-bold text-xl mb-2 text-slate-800 dark:text-slate-200">{{ quiz.title }}</h3>
+                <p class="text-slate-600 dark:text-slate-400 mb-4">{{ quiz.description|truncatewords:20 }}</p>
+                <div class="flex justify-between items-center text-sm text-slate-500 dark:text-slate-400">
+                  <span>{{ quiz.questions.count }} questions</span>
+                  <span>{{ quiz.quizattempt_set.count }} plays</span>
+                </div>
+              </div>
+              <div class="px-6 py-4 bg-slate-50 dark:bg-slate-700">
+                <a href="{% url 'quiz_take' quiz.id %}" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                  Start Quiz
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if quizzes.has_other_pages %}
+          <div class="flex justify-center mt-8">
+            <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+              {% if quizzes.has_previous %}
+                <a href="?page={{ quizzes.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 bg-white text-sm font-medium text-slate-500 hover:bg-slate-50">
+                  <span class="sr-only">Previous</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              {% endif %}
+
+              {% for i in quizzes.paginator.page_range %}
+                {% if quizzes.number == i %}
+                  <span class="relative inline-flex items-center px-4 py-2 border border-slate-300 bg-blue-50 text-sm font-medium text-blue-700">
+                    {{ i }}
+                  </span>
+                {% else %}
+                  <a href="?page={{ i }}" class="relative inline-flex items-center px-4 py-2 border border-slate-300 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50">
+                    {{ i }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+
+              {% if quizzes.has_next %}
+                <a href="?page={{ quizzes.next_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 bg-white text-sm font-medium text-slate-500 hover:bg-slate-50">
+                  <span class="sr-only">Next</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              {% endif %}
+            </nav>
+          </div>
+        {% endif %}
+      {% else %}
+        <p class="text-center text-slate-600 dark:text-slate-400">No quizzes available yet. Be the first to create one!</p>
+      {% endif %}
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-slate-700 dark:text-slate-300">Popular Categories</h2>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">History</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Science</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Literature</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Geography</a>
+        <a href="#" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-300">Pop Culture</a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold mb-6 text-slate-700 dark:text-slate-300">Top Quiz Masters</h2>
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+        <ul class="divide-y divide-slate-200 dark:divide-slate-700">
+          <li class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-10 w-10 rounded-full" src="https://picsum.photos/40/40" alt="User avatar">
+              <div class="ml-3">
+                <p class="text-sm font-medium text-slate-900 dark:text-slate-200">Jane Doe</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">50 quizzes created</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Top Creator
+            </span>
+          </li>
+          <li class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-10 w-10 rounded-full" src="https://picsum.photos/40/40" alt="User avatar">
+              <div class="ml-3">
+                <p class="text-sm font-medium text-slate-900 dark:text-slate-200">John Smith</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">45 quizzes created</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              Rising Star
+            </span>
+          </li>
+          <li class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="h-10 w-10 rounded-full" src="https://picsum.photos/40/40" alt="User avatar">
+              <div class="ml-3">
+                <p class="text-sm font-medium text-slate-900 dark:text-slate-200">Alice Johnson</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">40 quizzes created</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              Consistent
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+{% endblock %}
+
+      ├── profile.html
+        Content:
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  {{ profile.user.username }}'s Profile
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white dark:bg-[#0d1117] rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex items-center space-x-4 mb-6">
+        <img src="https://picsum.photos/80/80" alt="User Avatar" class="w-20 h-20 rounded-full bg-[#6e7681] dark:bg-[#c9d1d9]" />
+        <div>
+          <h1 class="text-3xl font-bold font-heading text-[#6e7681] dark:text-[#c9d1d9]">{{ profile.user.username }}</h1>
+          <p class="text-[#8b949e] dark:text-[#8b949e]">@{{ profile.user.username }}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-[#6e7681] dark:bg-[#c9d1d9] p-4 rounded-lg text-center">
+          <p class="font-semibold text-white dark:text-[#0d1117]">Member since</p>
+          <p class="text-white dark:text-[#0d1117]">{{ profile.user.date_joined|date:'F Y' }}</p>
+        </div>
+        <div class="bg-[#6e7681] dark:bg-[#c9d1d9] p-4 rounded-lg text-center">
+          <p class="font-semibold text-white dark:text-[#0d1117]">Quizzes Taken</p>
+          <p class="text-white dark:text-[#0d1117]">{{ profile.quizzes_taken }}</p>
+        </div>
+        <div class="bg-[#6e7681] dark:bg-[#c9d1d9] p-4 rounded-lg text-center">
+          <p class="font-semibold text-white dark:text-[#0d1117]">Quizzes Created</p>
+          <p class="text-white dark:text-[#0d1117]">{{ profile.quizzes_created }}</p>
+        </div>
+      </div>
+
+      {% if user == profile.user %}
+        <div class="flex space-x-4">
+          <a href="#" class="bg-[#6e7681] text-white rounded-full py-2 px-4 hover:bg-[#6e7681]/80 transition-colors">Edit Profile</a>
+          <a href="#" class="bg-[#238636] text-white rounded-full py-2 px-4 hover:bg-[#238636]/80 transition-colors">Change Password</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="bg-white dark:bg-[#0d1117] rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-[#6e7681] dark:text-[#c9d1d9]">Your Quizzes</h2>
+      {% if created_quizzes %}
+        <ul class="space-y-4">
+          {% for quiz in created_quizzes %}
+            <li>
+              <p class="font-semibold text-[#6e7681] dark:text-[#c9d1d9]">{{ quiz.title }}</p>
+              <p class="text-sm text-[#8b949e] dark:text-[#8b949e]">
+                Plays: {{ quiz.quizattempt_set.count }}
+                <span class="ml-2">
+                  Avg Score:{% with avg_score=quiz.quizattempt_set.all|dictsort:'score'|last %}
+                    {% if avg_score %}
+                      {{ avg_score.score|floatformat:1 }}%
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  {% endwith %}
+                </span>
+              </p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-[#8b949e] dark:text-[#8b949e]">No quizzes created yet.</p>
+      {% endif %}
+      <a href="{% url 'quiz_create' %}" class="mt-4 inline-block bg-[#238636] text-white rounded-full py-2 px-4 hover:bg-[#238636]/80 transition-colors">Create New Quiz</a>
+    </div>
+
+    <div class="bg-white dark:bg-[#0d1117] rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-[#6e7681] dark:text-[#c9d1d9]">Recent Activity</h2>
+      {% if quiz_attempts %}
+        <ul class="space-y-4">
+          {% for attempt in quiz_attempts %}
+            <li class="flex items-center">
+              <svg class="h-6 w-6 {% if attempt.score > attempt.quiz.questions.count|floatformat:0|divisibleby:2 %}
+                  text-[#238636]
+                {% else %}
+                  text-[#cf222e]
+                {% endif %} mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="text-[#8b949e] dark:text-[#8b949e]">Completed "{{ attempt.quiz.title }}" (Score: {{ attempt.score }}/{{ attempt.quiz.questions.count }})</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-[#8b949e] dark:text-[#8b949e]">No recent quiz attempts.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+
+      ├── question_form.html
+        Content:
+<div class="question-form mb-4">
+  <h3 class="text-xl font-bold mb-2">Question {{ form_index|add:1 }}</h3>
+  {{ question_form.as_p }}
+  <div class="answer-formset">
+    {{ answer_formset.management_form }}
+    {% for answer_form in answer_formset %}
+      {{ answer_form.as_p }}
+    {% endfor %}
+  </div>
+</div>
+
+      ├── quiz_detail.html
+        Content:
+{% extends 'quizzes/base.html' %}
+
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block content %}
+  <h2 class="text-3xl font-bold mb-6">{{ quiz.title }}</h2>
+  <p class="mb-4">{{ quiz.description }}</p>
+  <p class="mb-4">Category: {{ quiz.category }}</p>
+
+  <h3 class="text-2xl font-bold mb-4">Questions:</h3>
+  <ol class="list-decimal list-inside">
+    {% for question in quiz.questions.all %}
+      <li class="mb-4">
+        {{ question.text }}
+        <ul class="list-disc list-inside ml-4">
+          {% for answer in question.answers.all %}
+            <li>{{ answer.text }} {% if answer.is_correct %}(Correct){% endif %}</li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ol>
+{% endblock %}
+
+      ├── quiz_results.html
+        Content:
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Quiz Results - {{ quiz.title }}
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold font-heading mb-6 text-slate-800 dark:text-slate-100">Quiz Results: {{ quiz.title }}</h1>
+
+    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
+      <div class="text-center mb-6">
+        <p class="text-2xl font-bold mb-2">Your Score: {{ score }}/{{ total_questions }}</p>
+        <p>Time Taken: {{ quiz_attempt.completed_at|timeuntil:quiz_attempt.started_at }}</p>
+      </div>
+
+      <div class="mb-6">
+        <div class="relative pt-1">
+          <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-slate-300 dark:bg-slate-700">
+            <div style="width: {{ score|div:total_questions|mul:100 }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-slate-600 dark:bg-slate-400"></div>
+          </div>
+        </div>
+        <p class="text-center">{{ score|div:total_questions|mul:100|floatformat:0 }}% Correct</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-slate-600 dark:bg-slate-400 p-4 rounded-lg">
+          <h3 class="font-semibold mb-2 text-slate-100 dark:text-slate-800">Correct Answers</h3>
+          <p class="text-2xl font-bold text-slate-100 dark:text-slate-800">{{ score }}</p>
+        </div>
+        <div class="bg-rose-600 dark:bg-rose-400 p-4 rounded-lg">
+          <h3 class="font-semibold mb-2 text-slate-100 dark:text-slate-800">Incorrect Answers</h3>
+          <p class="text-2xl font-bold text-slate-100 dark:text-slate-800">{{ total_questions|sub:score }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold font-heading mb-4 text-slate-800 dark:text-slate-100">Question Summary</h2>
+      <ul class="space-y-4">
+        {% for user_answer in user_answers %}
+          <li class="flex items-start">
+            {% if user_answer.is_correct %}
+              <svg class="h-6 w-6 text-emerald-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            {% else %}
+              <svg class="h-6 w-6 text-rose-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            {% endif %}
+            <div>
+              <p class="text-slate-800 dark:text-slate-100">{{ user_answer.question.text }}</p>
+              <p class="text-sm text-slate-600 dark:text-slate-400">Your answer: {{ user_answer.answer.text }}</p>
+              {% if not user_answer.is_correct %}
+                <p class="text-sm text-emerald-500">Correct answer: {{ user_answer.question.answers.filter(is_correct=True).first.text }}</p>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="flex justify-between">
+      <a href="{% url 'quiz_take' quiz.id %}" class="bg-slate-600 text-slate-100 rounded-full py-2 px-4 hover:bg-slate-700 transition-colors dark:bg-slate-400 dark:text-slate-800 dark:hover:bg-slate-500">Retake Quiz</a>
+      <a href="{% url 'home' %}" class="bg-emerald-500 text-slate-100 rounded-full py-2 px-4 hover:bg-emerald-600 transition-colors">Back to Home</a>
+    </div>
+  </div>
+{% endblock %}
+
+      ├── take_quiz.html
+        Content:
+{% extends 'quizzes/base.html' %}
+
+{% block title %}
+  Take {{ quiz.title }}
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold font-heading mb-6 text-slate-800 dark:text-slate-200">{{ quiz.title }}</h1>
+
+    <form method="post" action="{% url 'quiz_results' quiz.id %}">
+      {% csrf_token %}
+      {% for question in questions %}
+        <div class="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-lg font-semibold text-slate-700 dark:text-slate-300">Question {{ forloop.counter }} of {{ questions|length }}</span>
+          </div>
+
+          <p class="text-xl mb-4 text-slate-800 dark:text-slate-200">{{ question.text }}</p>
+
+          <div class="space-y-4">
+            {% for answer in question.answers.all %}
+              <label class="block">
+                <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" class="hidden peer">
+                <div class="w-full text-left p-3 rounded-lg bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors text-slate-800 dark:text-slate-200 peer-checked:bg-slate-500 dark:peer-checked:bg-slate-500 peer-checked:text-white">
+                  {{ answer.text }}
+                </div>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="flex justify-end">
+        <button type="submit" class="bg-slate-600 text-white rounded-full py-2 px-4 hover:bg-slate-700 transition-colors">Submit Quiz</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+  ├── tests.py
+    Content:
+from django.test import TestCase
+
+# Create your tests here.
+
+
+  ├── urls.py
+    Content:
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.home, name="home"),
+    path("create/", views.quiz_create, name="quiz_create"),
+    path("quiz/<int:quiz_id>/", views.quiz_detail, name="quiz_detail"),
+    path("add_question/", views.add_question, name="add_question"),
+    path("remove_question/", views.remove_question, name="remove_question"),
+    path("take/<int:quiz_id>/", views.quiz_take, name="quiz_take"),
+    path("results/<int:quiz_id>/", views.quiz_results, name="quiz_results"),
+    path("profile/", views.default_profile, name="default_profile"),  # Add this line
+    path("profile/<int:member_id>/", views.member_profile, name="profile"),
+]
+
+
+  ├── views.py
+    Content:
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, Http404
+from .forms import QuizForm, QuestionFormSet, AnswerFormSet
+from .models import Quiz, Question, Answer, QuizAttempt, UserAnswer, UserProfile, User
+from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+# Add this to the top of your views.py file
+def handle_error(request, error_title, error_message):
+    return render(
+        request,
+        "quizzes/error.html",
+        {"error_title": error_title, "error_message": error_message},
+    )
+
+
+def home(request):
+    all_quizzes = Quiz.objects.all().order_by("-created_at")
+    paginator = Paginator(all_quizzes, 6)  # Show 6 quizzes per page
+    page = request.GET.get("page")
+
+    try:
+        quizzes = paginator.page(page)
+    except PageNotAnInteger:
+        quizzes = paginator.page(1)
+    except EmptyPage:
+        quizzes = paginator.page(paginator.num_pages)
+
+    return render(request, "quizzes/home.html", {"quizzes": quizzes})
+
+
+@login_required
+def quiz_create(request):
+    if request.method == "POST":
+        quiz_form = QuizForm(request.POST)
+        question_formset = QuestionFormSet(request.POST, prefix="questions")
+        if quiz_form.is_valid() and question_formset.is_valid():
+            quiz = quiz_form.save(commit=False)
+            quiz.creator = request.user
+            quiz.save()
+
+            questions = question_formset.save(commit=False)
+            for question in questions:
+                question.quiz = quiz
+                question.save()
+                answer_formset = AnswerFormSet(
+                    request.POST, instance=question, prefix=f"answers_{question.id}"
+                )
+                if answer_formset.is_valid():
+                    answer_formset.save()
+
+            return redirect("quiz_detail", quiz_id=quiz.id)
+    else:
+        quiz_form = QuizForm()
+        question_formset = QuestionFormSet(prefix="questions")
+
+    context = {
+        "quiz_form": quiz_form,
+        "question_formset": question_formset,
+    }
+    return render(request, "quizzes/create_quiz.html", context)
+
+
+@login_required
+def add_question(request):
+    form_index = int(request.GET.get("form_index", 0))
+    question_form = QuestionFormSet(prefix="questions").empty_form
+    answer_formset = AnswerFormSet(prefix=f"answers_{form_index}")
+    return render(
+        request,
+        "quizzes/question_form.html",
+        {
+            "question_form": question_form,
+            "answer_formset": answer_formset,
+            "form_index": form_index,
+        },
+    )
+
+
+@login_required
+def remove_question(request):
+    return HttpResponse("")  # This removes the question by returning an empty response
+
+
+def quiz_detail(request, quiz_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    return render(request, "quizzes/quiz_detail.html", {"quiz": quiz})
+
+
+# Update the quiz_take view
+def quiz_take(request, quiz_id):
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+        questions = quiz.questions.all().order_by("order")
+        if not questions.exists():
+            return handle_error(
+                request, "Quiz Unavailable", "This quiz doesn't have any questions yet."
+            )
+        return render(
+            request, "quizzes/take_quiz.html", {"quiz": quiz, "questions": questions}
+        )
+    except Http404:
+        return handle_error(
+            request, "Quiz Not Found", "The requested quiz does not exist."
+        )
+
+
+def quiz_results(request, quiz_id):
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+        if request.method != "POST":
+            return redirect("quiz_take", quiz_id=quiz_id)
+
+        if request.method == "POST":
+            score = 0
+            total_questions = quiz.questions.count()
+
+            quiz_attempt = QuizAttempt.objects.create(
+                quiz=quiz,
+                user=request.user if request.user.is_authenticated else None,
+                started_at=timezone.now(),
+            )
+
+            user_answers = []
+
+            for question in quiz.questions.all():
+                answer_id = request.POST.get(f"question_{question.id}")
+                if answer_id:
+                    answer = Answer.objects.get(id=answer_id)
+                    is_correct = answer.is_correct
+                    if is_correct:
+                        score += 1
+
+                    user_answer = UserAnswer.objects.create(
+                        quiz_attempt=quiz_attempt,
+                        question=question,
+                        answer=answer,
+                        is_correct=is_correct,
+                    )
+                    user_answers.append(user_answer)
+
+            quiz_attempt.score = score
+            quiz_attempt.completed_at = timezone.now()
+            quiz_attempt.save()
+
+            return render(
+                request,
+                "quizzes/quiz_results.html",
+                {
+                    "quiz": quiz,
+                    "score": score,
+                    "total_questions": total_questions,
+                    "user_answers": user_answers,
+                    "quiz_attempt": quiz_attempt,
+                },
+            )
+
+        return redirect("quiz_take", quiz_id=quiz_id)
+
+    except Http404:
+        return handle_error(
+            request, "Quiz Not Found", "The requested quiz does not exist."
+        )
+
+    except Exception as e:
+        return handle_error(request, "Error", f"An unexpected error occurred: {str(e)}")
+
+
+def default_profile(request):
+    # For now, we'll just redirect to a default member_id
+    # You can change this logic later when you implement user authentication
+    return redirect("profile", member_id=1)
+
+
+# Update the member_profile view
+def member_profile(request, member_id):
+    try:
+        user = get_object_or_404(User, id=member_id)
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        quiz_attempts = QuizAttempt.objects.filter(user=user).order_by("-completed_at")
+        created_quizzes = user.quiz_set.all().order_by("-created_at")
+
+        context = {
+            "profile": profile,
+            "quiz_attempts": quiz_attempts,
+            "created_quizzes": created_quizzes,
+        }
+        return render(request, "quizzes/profile.html", context)
+    except Http404:
+        return handle_error(
+            request, "User Not Found", "The requested user profile does not exist."
+        )
+
+
+├── requirements.txt
+  Content:
+arrow==1.3.0
+asgiref==3.8.1
+binaryornot==0.4.4
+certifi==2024.8.30
+chardet==5.2.0
+charset-normalizer==3.3.2
+click==8.1.7
+colorama==0.4.6
+cookiecutter==2.6.0
+Django==5.1.1
+django-appconf==1.0.6
+django-browser-reload==1.15.0
+django-compressor==4.5.1
+django-tailwind==3.8.0
+idna==3.8
+Jinja2==3.1.4
+markdown-it-py==3.0.0
+MarkupSafe==2.1.5
+mdurl==0.1.2
+numpy==2.1.1
+pandas==2.2.2
+Pygments==2.18.0
+python-dateutil==2.9.0.post0
+python-slugify==8.0.4
+pytz==2024.2
+PyYAML==6.0.2
+rcssmin==1.1.2
+requests==2.32.3
+rich==13.8.0
+rjsmin==1.2.2
+six==1.16.0
+sqlparse==0.5.1
+text-unidecode==1.3
+types-python-dateutil==2.9.0.20240906
+tzdata==2024.1
+urllib3==2.2.2
+
+
+└── static/
+  ├── favicon.ico [Excluded]
+
+--- Codebase End ---
+
+
+
+5. Current Roadblock (if any):
+After finishing a quiz and clicking the "Submit Quiz" button; the user is directed to a page showing:
+
+---
+<div class="bg-white dark:bg-[#0d1117] rounded-lg shadow-lg p-6">
+    <h1 class="text-3xl font-bold mb-4 text-[#6e7681] dark:text-[#c9d1d9]">Error</h1>
+    <p class="text-[#8b949e] dark:text-[#8b949e] mb-6">An unexpected error occurred: NOT NULL constraint failed: quizzes_quizattempt.user_id</p>
+    <a href="/" class="bg-[#238636] text-white rounded-full py-2 px-4 hover:bg-[#238636]/80 transition-colors">Return to Home</a>
+  </div>
+---
+
+1) The user should be directed to Home page or something like that (thank you page, but we don't have one)
+2) Before clicking the submit button we must make sure the user answered all questions.
+
+
+6. Next Feature you want to implement
+Fix the bugs above.
+

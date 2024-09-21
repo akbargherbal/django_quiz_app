@@ -1,1 +1,3 @@
 normal_user: adminADMIN123
+Django 5.0; Boundfield
+partialdef
