@@ -1,20 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
+from django.contrib.auth.models import User
 from .forms import QuizForm, QuestionFormSet, AnswerFormSet
-from .models import Quiz, Question, Answer, QuizAttempt, UserAnswer, UserProfile, User
+from .models import Quiz, Question, Answer, QuizAttempt, UserAnswer, UserProfile
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
-# Add this to the top of your views.py file
 def handle_error(request, error_title, error_message):
     return render(
         request,
         "quizzes/error.html",
         {"error_title": error_title, "error_message": error_message},
     )
-
 
 def home(request):
     all_quizzes = Quiz.objects.all().order_by("-created_at")
@@ -30,15 +27,13 @@ def home(request):
 
     return render(request, "quizzes/home.html", {"quizzes": quizzes})
 
-
-@login_required
 def quiz_create(request):
     if request.method == "POST":
         quiz_form = QuizForm(request.POST)
         question_formset = QuestionFormSet(request.POST, prefix="questions")
         if quiz_form.is_valid() and question_formset.is_valid():
             quiz = quiz_form.save(commit=False)
-            quiz.creator = request.user
+            quiz.creator = User.objects.filter(is_superuser=True).first()  # Use the first superuser
             quiz.save()
 
             questions = question_formset.save(commit=False)
@@ -62,8 +57,6 @@ def quiz_create(request):
     }
     return render(request, "quizzes/create_quiz.html", context)
 
-
-@login_required
 def add_question(request):
     form_index = int(request.GET.get("form_index", 0))
     question_form = QuestionFormSet(prefix="questions").empty_form
@@ -78,16 +71,12 @@ def add_question(request):
         },
     )
 
-
-@login_required
 def remove_question(request):
     return HttpResponse("")  # This removes the question by returning an empty response
-
 
 def quiz_detail(request, quiz_id):
     quiz = Quiz.objects.get(id=quiz_id)
     return render(request, "quizzes/quiz_detail.html", {"quiz": quiz})
-
 
 def quiz_take(request, quiz_id):
     try:
@@ -117,7 +106,7 @@ def quiz_results(request, quiz_id):
 
             quiz_attempt = QuizAttempt.objects.create(
                 quiz=quiz,
-                user=request.user if request.user.is_authenticated else None,
+                user=User.objects.filter(is_superuser=True).first(),  # Use the first superuser
                 started_at=timezone.now(),
             )
 
@@ -165,20 +154,19 @@ def quiz_results(request, quiz_id):
     except Exception as e:
         return handle_error(request, "Error", f"An unexpected error occurred: {str(e)}")
 
-
 def default_profile(request):
-    # For now, we'll just redirect to a default member_id
-    # You can change this logic later when you implement user authentication
-    return redirect("profile", member_id=1)
+    first_superuser = User.objects.filter(is_superuser=True).first()
+    if first_superuser:
+        return redirect("profile", member_id=first_superuser.id)
+    else:
+        return handle_error(request, "No Users", "There are no superusers in the system.")
 
-
-# Update the member_profile view
 def member_profile(request, member_id):
     try:
         user = get_object_or_404(User, id=member_id)
         profile, created = UserProfile.objects.get_or_create(user=user)
         quiz_attempts = QuizAttempt.objects.filter(user=user).order_by("-completed_at")
-        created_quizzes = user.quiz_set.all().order_by("-created_at")
+        created_quizzes = Quiz.objects.filter(creator=user).order_by("-created_at")
 
         context = {
             "profile": profile,
