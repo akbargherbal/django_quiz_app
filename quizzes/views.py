@@ -93,7 +93,6 @@ def quiz_take(request, quiz_id):
         return handle_error(
             request, "Quiz Not Found", "The requested quiz does not exist."
         )
-
 def quiz_results(request, quiz_id):
     try:
         quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -153,7 +152,6 @@ def quiz_results(request, quiz_id):
 
     except Exception as e:
         return handle_error(request, "Error", f"An unexpected error occurred: {str(e)}")
-
 def default_profile(request):
     first_superuser = User.objects.filter(is_superuser=True).first()
     if first_superuser:
