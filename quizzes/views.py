@@ -6,12 +6,14 @@ from .models import Quiz, Question, Answer, QuizAttempt, UserAnswer, UserProfile
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 def handle_error(request, error_title, error_message):
     return render(
         request,
         "quizzes/error.html",
         {"error_title": error_title, "error_message": error_message},
     )
+
 
 def home(request):
     all_quizzes = Quiz.objects.all().order_by("-created_at")
@@ -27,13 +29,16 @@ def home(request):
 
     return render(request, "quizzes/home.html", {"quizzes": quizzes})
 
+
 def quiz_create(request):
     if request.method == "POST":
         quiz_form = QuizForm(request.POST)
         question_formset = QuestionFormSet(request.POST, prefix="questions")
         if quiz_form.is_valid() and question_formset.is_valid():
             quiz = quiz_form.save(commit=False)
-            quiz.creator = User.objects.filter(is_superuser=True).first()  # Use the first superuser
+            quiz.creator = User.objects.filter(
+                is_superuser=True
+            ).first()  # Use the first superuser
             quiz.save()
 
             questions = question_formset.save(commit=False)
@@ -57,6 +62,7 @@ def quiz_create(request):
     }
     return render(request, "quizzes/create_quiz.html", context)
 
+
 def add_question(request):
     form_index = int(request.GET.get("form_index", 0))
     question_form = QuestionFormSet(prefix="questions").empty_form
@@ -71,12 +77,15 @@ def add_question(request):
         },
     )
 
+
 def remove_question(request):
     return HttpResponse("")  # This removes the question by returning an empty response
+
 
 def quiz_detail(request, quiz_id):
     quiz = Quiz.objects.get(id=quiz_id)
     return render(request, "quizzes/quiz_detail.html", {"quiz": quiz})
+
 
 def quiz_take(request, quiz_id):
     try:
@@ -93,6 +102,8 @@ def quiz_take(request, quiz_id):
         return handle_error(
             request, "Quiz Not Found", "The requested quiz does not exist."
         )
+
+
 def quiz_results(request, quiz_id):
     try:
         quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -105,7 +116,9 @@ def quiz_results(request, quiz_id):
 
             quiz_attempt = QuizAttempt.objects.create(
                 quiz=quiz,
-                user=User.objects.filter(is_superuser=True).first(),  # Use the first superuser
+                user=User.objects.filter(
+                    is_superuser=True
+                ).first(),  # Use the first superuser
                 started_at=timezone.now(),
             )
 
@@ -125,6 +138,13 @@ def quiz_results(request, quiz_id):
                         answer=answer,
                         is_correct=is_correct,
                     )
+
+                    # Add the correct answer text to the user_answer object
+                    correct_answer = question.answers.filter(is_correct=True).first()
+                    user_answer.question.correct_answer_text = (
+                        correct_answer.text if correct_answer else "N/A"
+                    )
+
                     user_answers.append(user_answer)
 
             quiz_attempt.score = score
@@ -152,12 +172,17 @@ def quiz_results(request, quiz_id):
 
     except Exception as e:
         return handle_error(request, "Error", f"An unexpected error occurred: {str(e)}")
+
+
 def default_profile(request):
     first_superuser = User.objects.filter(is_superuser=True).first()
     if first_superuser:
         return redirect("profile", member_id=first_superuser.id)
     else:
-        return handle_error(request, "No Users", "There are no superusers in the system.")
+        return handle_error(
+            request, "No Users", "There are no superusers in the system."
+        )
+
 
 def member_profile(request, member_id):
     try:
