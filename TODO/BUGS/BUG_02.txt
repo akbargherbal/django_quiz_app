@@ -1,0 +1,2 @@
+Fix AI assistant, mixing between stages (rushed into authentication!)
+While we're in stage 3 and 4

@@ -1,0 +1,10 @@
+Project Name: QuizMaster (Simple Quiz App)
+
+QuizMaster is a web-based quiz application inspired by popular platforms like Quizizz and Kahoot. It allows users to create and take quizzes. Single-player mode is what I aiming for.
+
+Current focus is on multiple-choice quizzes; later after I finish successfully deploying the app, I might add other functionalities like other simple quiz types, like True/False, reorder or flashcards etc.
+
+Stack: I'm using Django framework for the backend. The front-end utilizes HTMX and AlpineJS to deliver interactive user experience.
+
+
+
